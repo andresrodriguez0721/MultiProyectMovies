@@ -1,0 +1,11 @@
+rootProject.name = 'MultiProyectMovies'
+
+include 'service-users'
+include 'service-movies'
+include 'service-showtimes'
+include 'service-bookings'
+include 'config-server'
+include 'service-register'
+include 'service-getawey'
+include 'service-admin'
+include 'service-libraries'
