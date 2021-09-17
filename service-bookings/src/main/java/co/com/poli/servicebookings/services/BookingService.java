@@ -7,6 +7,8 @@ import java.util.List;
 public interface BookingService {
     void save(Booking booking);
     void delete(Booking booking);
+    Booking findByUserId(Long id);
     List<Booking> findAll();
     Booking findById(Long id);
+    void updateBooking(Booking newBooking, Booking oldBooking);
 }

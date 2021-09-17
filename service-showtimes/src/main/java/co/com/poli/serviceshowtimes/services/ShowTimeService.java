@@ -9,4 +9,5 @@ public interface ShowTimeService {
     void delete(ShowTime showTime);
     List<ShowTime> findAll();
     ShowTime findById(Long id);
+    void updateShowtime(ShowTime newShowtime, ShowTime oldShowTime);
 }
