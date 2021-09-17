@@ -19,7 +19,7 @@ public class MovieRepositoryMockTest {
     @Test
     public void when_findByMovie_return_listMovies(){
         Movie movie = Movie.builder()
-                .title("PruebaTest")
+                .tittle("PruebaTest")
                 .director("DirectorTest")
                 .rating(4)
                 .build();
