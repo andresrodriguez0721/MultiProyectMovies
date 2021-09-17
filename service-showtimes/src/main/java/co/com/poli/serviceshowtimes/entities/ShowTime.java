@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 //import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ShowTime {
     private Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    //@NotNull(message = "Por favor ingrese una fecha con el formato YYYY-MM-DD")
+    @NotNull(message = "Por favor ingrese una fecha con el formato YYYY-MM-DD")
     @Column(name = "date")
     private Date date;
 

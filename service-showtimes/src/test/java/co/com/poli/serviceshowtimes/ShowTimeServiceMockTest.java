@@ -26,6 +26,8 @@ public class ShowTimeServiceMockTest {
 
     @BeforeEach
     public void begin(){
+       /**
+
         MockitoAnnotations.initMocks(this);
         showTimeService = new ShowTimeServiceImpl(showTimeRepository);
 
@@ -42,6 +44,8 @@ public class ShowTimeServiceMockTest {
 
         Mockito.when(showTimeRepository.findById(4L))
                 .thenReturn(Optional.of(showTime));
+
+        **/
     }
 
     @Test

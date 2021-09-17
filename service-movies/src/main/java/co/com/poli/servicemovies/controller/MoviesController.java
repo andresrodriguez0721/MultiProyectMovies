@@ -1,11 +1,16 @@
 package co.com.poli.servicemovies.controller;
 
+import co.com.poli.servicelibraries.FormatMessage;
+import co.com.poli.servicelibraries.Response;
+import co.com.poli.servicelibraries.ResponseBuilder;
 import co.com.poli.servicemovies.entities.Movie;
 import co.com.poli.servicemovies.services.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,37 +18,43 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MoviesController {
     private final MovieService movieService;
+    private final ResponseBuilder builder = new ResponseBuilder();
+    private final FormatMessage message = new FormatMessage();
 
     @PostMapping
-    public ResponseEntity<Movie> save(@RequestBody Movie movie){
-        movieService.save(movie);
-        return ResponseEntity.ok(movie);
-    }
-    @DeleteMapping("{id}")
-    public ResponseEntity<Movie> delete(@PathVariable("id") Long id){
-        Movie movie = movieService.findById(id);
-        if(movie == null){
-            return ResponseEntity.notFound().build();
+    public Response save(@Valid @RequestBody Movie movie, BindingResult result){
+        if(result.hasErrors()){
+            return builder.failed(message.formatMessage(result));
         }
-        movieService.delete(movie);
-        return ResponseEntity.ok(movie);
+        movieService.save(movie);
+        return builder.success(movie);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Movie>> findAll(){
-        List<Movie> movies = movieService.findAll();
-        if (movies.isEmpty()){
-            return ResponseEntity.noContent().build();
+    @DeleteMapping("/{id}")
+    public Response delete(@PathVariable("id") Long id){
+        Movie movie = movieService.findById(id);
+        if(movie == null){
+            return builder.success(null);
         }
-        return ResponseEntity.ok(movies);
+        movieService.delete(movie);
+        return builder.success(movie);
+    }
+
+    @GetMapping()
+    public Response findAll(){
+        List<Movie> movies = movieService.findAll();
+        if(movies.isEmpty()){
+            return builder.success(null);
+        }
+        return builder.success(movies);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> findById(@PathVariable("id") Long id){
+    public Response findById(@PathVariable("id") Long id){
         Movie movie = movieService.findById(id);
-        if (movie == null){
-            return ResponseEntity.notFound().build();
+        if(movie == null){
+            return builder.success(null);
         }
-        return ResponseEntity.ok(movie);
+        return builder.success(movie);
     }
 }

@@ -22,11 +22,11 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-
+    implementation 'org.modelmapper:modelmapper:2.4.2'
 
     runtimeOnly 'com.h2database:h2'
 
-    //implementation project(':library-commons')
+    implementation project(':service-libraries')
 }
 
 dependencyManagement {

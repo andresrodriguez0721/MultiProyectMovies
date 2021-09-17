@@ -23,7 +23,7 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
 
-    //implementation project(':library-commons')
+    implementation project(':service-libraries')
 }
 
 dependencyManagement {
