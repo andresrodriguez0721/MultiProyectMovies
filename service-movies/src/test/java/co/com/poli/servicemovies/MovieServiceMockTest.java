@@ -27,7 +27,7 @@ public class MovieServiceMockTest {
 
         Movie movie = Movie.builder()
                 .id(3L)
-                .title("PruebaTestService")
+                .tittle("PruebaTestService")
                 .director("DirectorTestService")
                 .rating(3)
                 .build();
@@ -40,7 +40,7 @@ public class MovieServiceMockTest {
     @Test
     public void when_findById_return_movie(){
         Movie movie = movieService.findById(3L);
-        Assertions.assertThat(movie.getTitle()).isEqualTo("PruebaTestService");
+        Assertions.assertThat(movie.getTittle()).isEqualTo("PruebaTestService");
     }
 
 }
