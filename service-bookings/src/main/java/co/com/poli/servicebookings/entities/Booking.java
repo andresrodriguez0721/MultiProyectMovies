@@ -6,6 +6,8 @@ import co.com.poli.servicebookings.models.User;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 //import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 import java.util.List;
@@ -24,13 +26,15 @@ public class Booking {
     @Column(name = "id", updatable = false, nullable = false, unique = true)
     private Long id;
 
-    //@NotEmpty(message = "El title no puede ser vacio")
+    @NotNull(message = "El id del usuario no puede ser vacio")
     @Column(name="USERID")
     private Long USERID;
+
     @Transient
     private User user;
 
-    //@NotEmpty(message = "El director no puede ser vacio")
+
+    @NotNull(message = "El id de showtime  no puede ser vacio")
     @Column(name="SHOWTIMEID")
     private Long SHOWTIMEID;
 

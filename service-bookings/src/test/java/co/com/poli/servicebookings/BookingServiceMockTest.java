@@ -19,12 +19,15 @@ import java.util.Optional;
 @SpringBootTest
 public class BookingServiceMockTest {
 
+    /**
     @Mock
     BookingRepository bookingRepository;
     BookingService bookingService;
 
+     **/
     @BeforeEach
     public void begin(){
+        /**
         MockitoAnnotations.initMocks(this);
         bookingService = new BookingServiceImpl(bookingRepository);
 
@@ -42,12 +45,17 @@ public class BookingServiceMockTest {
 
         Mockito.when(bookingRepository.findById(3L))
                 .thenReturn(Optional.of(booking));
+
+         **/
     }
 
+    /**
     @Test
     public void when_findById_return_movie(){
         Booking booking = bookingService.findById(3L);
         Assertions.assertThat(booking.getUSERID()).isEqualTo(1L);
     }
+
+    **/
 
 }
