@@ -1,8 +1,11 @@
 package co.com.poli.servicebookings.services;
 
+import co.com.poli.servicebookings.client.UserClient;
 import co.com.poli.servicebookings.entities.Booking;
+import co.com.poli.servicebookings.models.User;
 import co.com.poli.servicebookings.repositories.BookingRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,7 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
+    private final UserClient userClient;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -35,11 +39,37 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional(readOnly = true)
     public Booking findById(Long id) {
-        return bookingRepository.findById(id).orElse(null);
+        ModelMapper modelMapper = new ModelMapper();
+        Booking booking = bookingRepository.findById(id).orElse(null);
+
+        System.out.println("este es el booking consultado v6-->"+ booking.getUSERID());
+
+        try {
+
+            System.out.println("este es el booking consultado v5-->"+ booking.getId());
+
+            User user = modelMapper.map(userClient.findById(booking.getUSERID()).getData(), User.class);
+
+            System.out.println("este es el booking consultado v4-->"+ user.getName());
+
+            System.out.println("este es el booking consultado v3.-->"+ user.getLastName());
+
+            booking.setUser(user);
+
+            System.out.println("este es el booking consultado v1.-->"+ booking.getUser().getName());
+
+        }catch (Exception exception){
+            exception.getCause();
+        }
+
+        return booking;
+
     }
 
     @Override
     public Booking findByUserId(Long id) {
+
+       return new Booking();
         /**
          Booking booking = bookingRepository.findByUserid(id);
          ModelMapper modelMapper = new ModelMapper();
@@ -61,7 +91,6 @@ public class BookingServiceImpl implements BookingService {
 
          return bookingRepository.findByUserid(id);
          **/
-        return new Booking();
     }
 
     @Override
