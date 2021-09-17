@@ -26,7 +26,10 @@ public class BookingsController {
         if(result.hasErrors()){
             return builder.failed(message.formatMessage((result)));
         }
+        System.out.println("booking-->" + booking.getUSERID());
+        System.out.println("booking- c2->" + booking.getSHOWTIMEID());
         bookingService.save(booking);
+        System.out.println("booking- v3->" + booking.getSHOWTIMEID());
         return builder.success(booking);
     }
 
@@ -73,13 +76,17 @@ public class BookingsController {
         return builder.success(booking);
     }
 
-
     @GetMapping()
     public Response findAll(){
+        System.out.println("buscar todos los bookins");
         List<Booking> bookings = bookingService.findAll();
+
+        System.out.println("buscar todos los bookins sice" + bookings.size());
         if(bookings.isEmpty()){
+            System.out.println("buscar todos los bookins empty" + bookings.size());
             return builder.success(null);
         }
+        System.out.println("buscar todos los bookins empty no" + bookings.toArray());
         return builder.success(bookings);
     }
 }

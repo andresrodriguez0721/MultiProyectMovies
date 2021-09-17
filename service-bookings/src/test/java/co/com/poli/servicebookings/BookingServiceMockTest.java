@@ -1,5 +1,8 @@
 package co.com.poli.servicebookings;
 
+import co.com.poli.servicebookings.client.MovieClient;
+import co.com.poli.servicebookings.client.ShowtimeClient;
+import co.com.poli.servicebookings.client.UserClient;
 import co.com.poli.servicebookings.entities.Booking;
 import co.com.poli.servicebookings.repositories.BookingRepository;
 import co.com.poli.servicebookings.services.BookingService;
@@ -22,11 +25,15 @@ public class BookingServiceMockTest {
     @Mock
     BookingRepository bookingRepository;
     BookingService bookingService;
+    MovieClient movieClient;
+    ShowtimeClient showtimeClient;
+    UserClient userClient;
+
 
     @BeforeEach
     public void begin(){
         MockitoAnnotations.initMocks(this);
-        bookingService = new BookingServiceImpl(bookingRepository);
+        bookingService = new BookingServiceImpl(bookingRepository); //, movieClient, showtimeClient, userClient
 
         List<Long> listmovies = new ArrayList<>();
         listmovies.add(1L);
