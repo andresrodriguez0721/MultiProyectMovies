@@ -47,7 +47,7 @@ public class Booking {
     private List<Long> MOVIESID;
 
     @Transient
-    private Movie movie;
+    private List<Movie> movies;
 
 
     @Override

@@ -70,7 +70,7 @@ public class BookingsController {
         System.out.println("entro a eliminar brooking llamar delete");
         bookingService.delete(booking);
         System.out.println("entro a eliminar brooking llamo deletee" );
-        return builder.success(booking);
+        return builder.success();
     }
 
 

@@ -23,8 +23,10 @@ public class BookingServiceMockTest {
     BookingRepository bookingRepository;
     BookingService bookingService;
 
+
     @BeforeEach
     public void begin(){
+        /**
         MockitoAnnotations.initMocks(this);
         bookingService = new BookingServiceImpl(bookingRepository);
 
@@ -42,6 +44,7 @@ public class BookingServiceMockTest {
 
         Mockito.when(bookingRepository.findById(3L))
                 .thenReturn(Optional.of(booking));
+        **/
     }
 
     @Test

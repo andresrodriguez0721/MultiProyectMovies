@@ -1,7 +1,11 @@
 package co.com.poli.servicebookings.services;
 
+import co.com.poli.servicebookings.client.MovieClient;
+import co.com.poli.servicebookings.client.ShowtimeClient;
 import co.com.poli.servicebookings.client.UserClient;
 import co.com.poli.servicebookings.entities.Booking;
+import co.com.poli.servicebookings.models.Movie;
+import co.com.poli.servicebookings.models.ShowTime;
 import co.com.poli.servicebookings.models.User;
 import co.com.poli.servicebookings.repositories.BookingRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +23,9 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserClient userClient;
+    private final MovieClient movieClient;
+    private final ShowtimeClient showtimeClient;
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -33,7 +42,26 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional(readOnly = true)
     public List<Booking> findAll() {
-        return bookingRepository.findAll();
+
+        List<Booking> bookings = bookingRepository.findAll();
+
+        bookings.stream().map(booking -> {
+            ModelMapper modelMapper = new ModelMapper();
+            User user = modelMapper.map(userClient.findById(booking.getUSERID()).getData(), User.class);
+            System.out.println("este es el booking consultado v3-->"+ user.getName());
+            ShowTime showTime = modelMapper.map(showtimeClient.findById(booking.getSHOWTIMEID()).getData(), ShowTime.class);
+
+
+            booking.setUser(user);
+            System.out.println("user?" + booking.getUser().getName());
+            booking.setShowTime(showTime);
+            System.out.println("shotime?" + booking.getShowTime().getId());
+
+            booking.setMovies(null);
+            return booking;
+        }).collect(Collectors.toList());
+
+         return bookings;
     }
 
     @Override
@@ -42,25 +70,34 @@ public class BookingServiceImpl implements BookingService {
         ModelMapper modelMapper = new ModelMapper();
         Booking booking = bookingRepository.findById(id).orElse(null);
 
-        System.out.println("este es el booking consultado v6-->"+ booking.getUSERID());
+        if(booking != null){
+            System.out.println("este es el booking consultado -->"+ booking.getUSERID());
 
-        try {
+            try {
 
-            System.out.println("este es el booking consultado v5-->"+ booking.getId());
+                System.out.println("este es el booking consultado v2-->"+ booking.getUSERID());
 
-            User user = modelMapper.map(userClient.findById(booking.getUSERID()).getData(), User.class);
+                User user = modelMapper.map(userClient.findById(booking.getUSERID()).getData(), User.class);
+                System.out.println("este es el booking consultado v3-->"+ user.getName());
+                ShowTime showTime = modelMapper.map(showtimeClient.findById(booking.getSHOWTIMEID()).getData(), ShowTime.class);
 
-            System.out.println("este es el booking consultado v4-->"+ user.getName());
 
-            System.out.println("este es el booking consultado v3.-->"+ user.getLastName());
+                booking.setUser(user);
+                System.out.println("user?" + booking.getUser().getName());
+                booking.setShowTime(showTime);
+                System.out.println("shotime?" + booking.getShowTime().getId());
 
-            booking.setUser(user);
+                booking.setMovies(null);
+                System.out.println("movies?");
 
-            System.out.println("este es el booking consultado v1.-->"+ booking.getUser().getName());
 
-        }catch (Exception exception){
-            exception.getCause();
+
+            }catch (Exception exception){
+                exception.getCause();
+            }
+
         }
+
 
         return booking;
 
@@ -68,29 +105,18 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking findByUserId(Long id) {
+        Booking booking = bookingRepository.findByUSERID(id);
+        ModelMapper modelMapper = new ModelMapper();
 
-       return new Booking();
-        /**
-         Booking booking = bookingRepository.findByUserid(id);
-         ModelMapper modelMapper = new ModelMapper();
+        User user = modelMapper.map(userClient.findById(booking.getUSERID()).getData(), User.class);
+        booking.setUser(user);
 
-         User user = modelMapper.map(userClient.findById(booking.getUSERID()).getData(), User.class);
-         booking.setUser(user);
-
-         ShowTime showtime =
-         modelMapper.map(showtimeClient.findById(booking.getSHOWTIMEID()).getData(), ShowTime.class);
-         booking.setShowTime(showtime);
-
-         List<Long> movieList = booking.getMOVIESID().stream()
-         .map(movieItem -> {
-         Movie movie = modelMapper.map(movieClient.findById(movieItem).getData(), Movie.class);
-         booking.setMovie(movie);
-         return movieItem;
-         }).collect(Collectors.toList());
+        ShowTime showtime =
+                modelMapper.map(showtimeClient.findById(booking.getSHOWTIMEID()).getData(), ShowTime.class);
+        booking.setShowTime(showtime);
 
 
-         return bookingRepository.findByUserid(id);
-         **/
+        return bookingRepository.findByUSERID(id);
     }
 
     @Override
