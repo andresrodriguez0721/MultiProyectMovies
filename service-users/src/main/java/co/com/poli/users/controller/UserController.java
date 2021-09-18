@@ -46,6 +46,14 @@ public class UserController {
         if(user == null){
             return builder.success(null);
         }
+        System.out.println("entro por aca");
+        String message = userService.findByUSERID(user.getId());
+        System.out.println("entro por aca v2 ->" + message);
+        if(message.equals("no se puede eliminar el usuario")) {
+            System.out.println("entro por aca impor");
+
+            return builder.success("No se puede eliminar el usuario dado que tiene reservas");
+        }
         userService.delete(user);
         return builder.success(user);
     }

@@ -104,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking findByUserId(Long id) {
+    public Booking findByUSERID(Long id) {
         Booking booking = bookingRepository.findByUSERID(id);
         ModelMapper modelMapper = new ModelMapper();
 

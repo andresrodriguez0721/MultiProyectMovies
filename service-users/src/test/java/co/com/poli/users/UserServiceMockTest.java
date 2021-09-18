@@ -1,5 +1,6 @@
 package co.com.poli.users;
 
+import co.com.poli.users.clients.BookingClient;
 import co.com.poli.users.entities.User;
 import co.com.poli.users.repositories.UserRepository;
 import co.com.poli.users.services.UserService;
@@ -20,11 +21,12 @@ public class UserServiceMockTest {
     @Mock
     private UserRepository userRepository;
     private UserService userService;
+    private BookingClient bookingClient;
 
     @BeforeEach
     public void begin(){
         MockitoAnnotations.initMocks(this);
-        userService = new UserServiceImpl(userRepository);
+        userService = new UserServiceImpl(userRepository, bookingClient);
 
         User user = User.builder()
                 .id(1L)

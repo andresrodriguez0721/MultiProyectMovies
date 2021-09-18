@@ -50,8 +50,8 @@ public class BookingsController {
     }
 
     @GetMapping("/userid/{userid}")
-    public Response findByUserId(@PathVariable("userid") Long userid){
-        Booking booking = bookingService.findByUserId(userid);
+    public Response findByUSERID(@PathVariable("userid") Long userid){
+        Booking booking = bookingService.findByUSERID(userid);
         if(booking == null){
             return builder.success(null);
         }
